@@ -1,15 +1,14 @@
 // ==UserScript==
 // @author       AdlerED - Modified by Ujhhgtg
 // @copyright    2020, adlered https://stackoverflow.wiki
-// @license      MIT
 // @icon         https://csdnimg.cn/public/favicon.ico
 // @homepageURL  https://github.com/UjhhgtgTeams/CSDNGreener
 // @supportURL   https://github.com/UjhhgtgTeams/CSDNGreener/issues/new?assignees=adlered&labels=help+wanted&template=ISSUE_TEMPLATE.md&title=
 // @contributionURL https://doc.stackoverflow.wiki/web/#/21?page_id=138
-// @name         CSDN优化脚本 - 不含使用情况统计的版本
+// @name         被优化的CSDN优化脚本 (
 // @namespace    https://github.com/UjhhgtgTeams
-// @version      4.1.6
-// @description  不含使用情况统计的CSDNGreener~|🕶无需登录CSDN，获得比会员更佳的体验|🖥自定义背景图，分辨率自适配，分屏不用滚动|💾超级预优化|🔖独家超级免会员|🏷独家原创文章免登录展开|🔌独家推荐内容自由开关|📠独家免登录复制|🔗独家防外链重定向|📝独家论坛未登录自动展开文章、评论|🌵全面净化|📈沉浸阅读|🧴净化剪贴板|📕作者信息文章顶部展示
+// @version      4.1.9a
+// @description  不含使用情况统计及广告的CSDNGreener~|🕶无需登录CSDN，获得比会员更佳的体验|🖥自定义背景图，分辨率自适配，分屏不用滚动|💾超级预优化|🔖独家超级免会员|🏷独家原创文章免登录展开|🔌独家推荐内容自由开关|📠独家免登录复制|🔗独家防外链重定向|📝独家论坛未登录自动展开文章、评论|🌵全面净化|📈沉浸阅读|🧴净化剪贴板|📕作者信息文章顶部展示
 // @connect      www.csdn.net
 // @include      *://*.csdn.net/*
 // @require      https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery-cookie/1.4.1/jquery.cookie.min.js
@@ -19,6 +18,16 @@
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @license      AGPL-3.0-or-later
+// @note         23-09-24 4.1.9a 同步上游, 移除新增加的广告 (同时移除 ads 标识)
+// @note         23-05-25 4.1.9 再次修复免登录复制无法使用的问题
+// @note         23-05-11 4.1.8 强杀变异型登录框弹出（不影响自己点击登录使用）
+// @note         23-05-10 4.1.7 增强免登录复制功能
+// @note         23-04-11 4.1.6 去广告更新
+// @note         23-04-06 4.1.5 新增: 跳过 CSDN 的 link 页面
+// @note         23-04-04 4.1.4 增加ads标识
+// @note         23-03-30 4.1.3 移除统计代码，登录问题相关优化（只屏蔽一次）
+// @note         23-02-03 4.1.2 修复了无法登录的问题（评论不登录无法加载暂无解决方案，我们在持续努力中）
 // @note         22-07-20 4.1.1e 更新脚本元数据
 // @note         22-06-12 4.1.1d 更新脚本元数据
 // @note         22-06-12 4.1.1c 更新脚本名称
@@ -165,7 +174,7 @@
 // @note         19-03-01 1.0.1 修复了排版问题, 优化了代码结构
 // @note         19-02-26 1.0.0 初版发布
 // ==/UserScript==
-var version = "4.1.1e";
+var version = "4.1.9a";
 var currentURL = window.location.href;
 if (currentURL.indexOf("?") !== -1) {
     currentURL = currentURL.substring(0, currentURL.indexOf("?"));
@@ -489,6 +498,7 @@ var protect_svg = '<svg t="1629560538805" class="icon" viewBox="0 0 1024 1024" v
         var other = /(www\.csdn\.net\/)/;
         var mp = /mp\.csdn\.net/;
         var article_month = /article\/month/;
+        var link = /link\.csdn\.net/;
 
         // 数组初始化
         list = [];
@@ -670,13 +680,13 @@ var protect_svg = '<svg t="1629560538805" class="icon" viewBox="0 0 1024 1024" v
             $("code").css("user-select","auto");
             $("#content_views").css("user-select","auto");
             $("pre").css("user-select","auto");7
-            // 图片混文字时，无法完整复制，图片不会被复制下来 https://github.com/adlered/CSDNGreener/issues/87
+            // 图片混文字时，无法完整复制，图片不会被复制下来 https://github.com/UjhhgtgTeams/CSDNGreener/issues/87
             //let el = $("main .blog-content-box")[0];
             //let elClone = el.cloneNode(true);
             //el.parentNode.replaceChild(elClone, el);
-            // 保存csdn的网页再次打开会自动跳转到首页 https://github.com/adlered/CSDNGreener/issues/97
+            // 保存csdn的网页再次打开会自动跳转到首页 https://github.com/UjhhgtgTeams/CSDNGreener/issues/97
             $("[onerror]").remove();
-            // CSDN重定向外链不能在新的窗口跳转 https://github.com/adlered/CSDNGreener/issues/80
+            // CSDN重定向外链不能在新的窗口跳转 https://github.com/UjhhgtgTeams/CSDNGreener/issues/80
             $("#article_content a[href]").attr("target", "_blank");
             // 搜索框优化
             //$("#toolbar-search-input").css("width", "calc(100% - 400px)");
@@ -753,6 +763,11 @@ var protect_svg = '<svg t="1629560538805" class="icon" viewBox="0 0 1024 1024" v
             common(7, 10);
             // common(5, 10);
             loop(3);
+        } else if (link.test(currentURL)) {
+            // 跳过 CSDN 的 link 页面
+            var url = new URL(window.location.href)
+            var target = url.searchParams.get('target')
+            window.location.href = target
         } else {
             l("哦豁，好偏门的页面，我来试着优化一下哦...");
             // 常规
@@ -896,6 +911,8 @@ function clean(times) {
     progressor.incProgress(10);
 }
 
+var deletedLogin = false;
+
 function loop(num) {
     setInterval(function () {
         if (num === 1) {
@@ -937,7 +954,19 @@ function loop(num) {
             $(".toolbar-advert").remove();
         } else if (num == 3) {
             // 循环删除登录提示框
-            $(".passport-login-container").remove();
+            if ($($(".passport-login-container")[0]).length == 1 && deletedLogin == false) {
+                let passInterval = setInterval(function() {
+                    $('.passport-login-container').hide();
+                    console.log("hide");
+                }, 10);
+                setTimeout(function() {
+                    clearInterval(passInterval);
+                    setTimeout(function() {
+                        $("#passportbox").find("span").click();
+                    }, 500)
+                }, 5000);
+                deletedLogin = true;
+            }
             // 红包雨
             $("#csdn-redpack").remove();
         }
@@ -982,6 +1011,7 @@ function common(num, times) {
             $(".hljs-button").addClass("{2}");
             $(".hljs-button").attr("data-title", "免登录复制");
             $(".hljs-button").attr("onclick", "hljs.copyCode(event);setTimeout(function(){$('.hljs-button').attr('data-title', '免登录复制');},3500);");
+            $("#content_views").unbind("copy");
             // 去除剪贴板劫持
             $("code").attr("onclick", "mdcp.copyCode(event)");
             try {
@@ -1114,7 +1144,7 @@ function common(num, times) {
         } else if (num == 6) {
             let did = false;
             let configHTML = '';
-            configHTML += '<div class="configContainer"><p><a class="title" href="https://github.com/adlered/CSDNGreener" target="_blank">CSDNGreener</a> <sup>V' + version + ' ' + settings_svg + '</sup></p>';
+            configHTML += '<div class="configContainer"><p><a class="title" href="https://github.com/UjhhgtgTeams/CSDNGreener" target="_blank">CSDNGreener</a> <sup>V' + version + ' ' + settings_svg + '</sup></p>';
             configHTML += '<p><a href="//shang.qq.com/wpa/qunwpa?idkey=d7ad6ead3f57722e7f00a4281ae75dbac2132c5a8cf321992d57309037fcaf63" target="_blank">官方 QQ 交流群：1042370453</a></p><br>';
 
             // 设定：推荐内容按钮
@@ -1160,9 +1190,7 @@ function common(num, times) {
             configHTML += '<br>';
             configHTML += '<input type="checkbox" id="toggle-content-button"> <label for="toggle-content-button" class="modeLabel">显示目录</label>';
             configHTML += '<br><br>';
-            configHTML += '<div><h6>没有收钱的广告</h6><p>我家香港CN2 10M主机一个月29（也有国内高防主机），高防CDN国内外节点都有（香港节点免备案），非常适合小站长以及长期被攻击的网站哦 :)</p><a href="https://www.tsyvps.com/aff/HEHTPGYL" target="_blank"><img src="https://ftp.stackoverflow.wiki/bolo/ad.png" style="max-width: 500px;"></a></div><br>';
-            configHTML += '<div><h6>没有收钱的广告 2</h6><p>（作者本人建设的社区～</p><p>社区中聚集了同行业的大佬小白，欢迎小伙伴们一起摸鱼！</p><a href="https://fishpi.cn" target="_blank"><img src="https://s2.loli.net/2022/01/05/1HpBZUraMcR8ist.png" style="width:100%;height:100%;"/></a></div>';
-            configHTML += '<a href="https://github.com/adlered/CSDNGreener" target="_blank" class="giveMeOneStar">' + star_svg + ' <b>点我~</b> 动动小手在 GitHub 点个 Star 和关注，支持我继续维护脚本 :)</a><br><br>';
+            configHTML += '<a href="https://github.com/UjhhgtgTeams/CSDNGreener" target="_blank" class="giveMeOneStar">' + star_svg + ' <b>转到脚本 GitHub</b> 动动小手在 GitHub 点个 Star 和关注，支持我继续维护脚本 :)</a><br><br>';
             configHTML += '<p>特别提示：CSDNGreener 脚本不提供任何会员文章破解、会员资源下载功能，仅适用于前端优化，请在CSDN官方渠道购买CSDN会员体验付费功能。</p>';
             configHTML += '<hr style="height:1px;border:none;border-top:1px solid #cccccc;margin: 5px 0px 5px 0px;" />';
             configHTML += '<br>';
@@ -1210,7 +1238,6 @@ function common(num, times) {
             config.listenButton("#toggle-shop-button", "shop",
                                 function() {location.reload();},
                                 function() {location.reload();});
-
             // 显示作者名片
             let authorCardCookie = config.get("authorCard", true);
             if (authorCardCookie) {
