@@ -22,15 +22,15 @@ CSDNGreener 是一个优化 CSDN 广告、使用体验的脚本，有口皆碑�
 在使用脚本之前，你需要为浏览器安装脚本管理器插件。  
 经过测试，我们确定兼容以下浏览器和插件用于安装此脚本。
 
-#### :globe_with_meridians: 浏览器支持（任选其一即可）
+#### :globe_with_meridians: 浏览器支持
 
-* Chrome 或基于 Chromium 的浏览器 (Edge、360浏览器、CentBrowser等) <sup>*推荐</sup>  
-* Firefox <sup>*更加推荐，隐私保护首选</sup>
+* Firefox <sup>*隐私保护首选</sup>
+* 基于 Chromium 的浏览器 (Google Chrome, Microsoft Edge 等) <sup>*推荐</sup>  
 
 #### :see_no_evil: 脚本管理器（任选其一即可）
 
-* Tampermonkey (新油猴) <sup>*<a href="https://www.tampermonkey.net/">插件安装链接</a></sup>  
-* Violentmonkey (暴力猴) <sup>*<a href="https://violentmonkey.github.io/get-it/">插件安装链接</a></sup>  
+* Tampermonkey (新油猴) <sup>*<a href="https://www.tampermonkey.net/">安装</a></sup>  
+* Violentmonkey (暴力猴) <sup>*<a href="https://violentmonkey.github.io/get-it/">安装</a></sup>  
 <sub>注：Greasemonkey (旧油猴) 由于过于古老，不支持该脚本。</sub>
 
 #### :test_tube: 支持的操作系统
@@ -43,28 +43,30 @@ CSDNGreener 是一个优化 CSDN 广告、使用体验的脚本，有口皆碑�
 通过 GreasyFork 安装脚本: **[点我](https://greasyfork.org/zh-CN/scripts/446239)**  
 
 * 从 OpenUserJS 安装
-通过 OpenUserJS 安装脚本: **[点我](https://openuserjs.org/scripts/Ujhhgtg/CSDN%E4%BC%98%E5%8C%96%E8%84%9A%E6%9C%AC_-_%E4%B8%8D%E5%90%AB%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5%E7%BB%9F%E8%AE%A1%E7%9A%84%E7%89%88%E6%9C%AC)**  
+通过 OpenUserJS 安装脚本: **[点我](https://openuserjs.org/scripts/Ujhhgtg/%E8%A2%AB%E4%BC%98%E5%8C%96%E7%9A%84CSDN%E4%BC%98%E5%8C%96%E8%84%9A%E6%9C%AC_\()**  
 然后点击页面右上角的`Install`进行安装.
 
 ### :rocket: 贡献
-欢迎对本项目提交**Issues**帮助我完善脚本；  
-如果你对 JavaScript 有所了解，可以直接提交**Pull Requests**，要求如下：
+欢迎对本项目提交 **Issues** 帮助我完善脚本；  
+如果你对 JavaScript 有所了解，可以直接提交 **Pull Requests**，要求如下：
 
-记得修改版本信息：
+- 修改版本信息
 
-* 修改方法
-##### 将版本号后的字母按照字母表顺序向后延一位，若遇到最后一位就在该字母后加 a
-##### 如： 1.0a => 1.0b ;; 1.0z -> 1.0za   
+  * 格式
+  ##### 上游：将版本号后的数字按照顺序向后延一位，若遇到进位则正常进位
+  ##### 下游：将版本号后的字母按照顺序向后延一位，若遇到最后一位则在其后继续添加
+  ##### 例：1.1.9 -> 1.1.10 | 1.1.9z -> 1.1.9za
+  
+  * 位置
+  ```javascript
+  // @version      1.1.9
+  ```
+  ```javascript
+  var version = "1.1.9";
+  ```
 
-* 修改位置
-```
-// @version      1.1.9
-
-var version = "1.1.9";
-```
-
-* 将更新描述在加在列表最上方，：
-
-```
-// @note         19-06-04 1.1.9 更新描述
-```
+- 添加更新描述
+  
+  ```javascript
+  // @note         19-06-04 1.1.9 更新描述
+  ```
